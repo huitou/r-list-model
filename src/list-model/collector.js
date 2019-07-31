@@ -1,5 +1,5 @@
 /*
-    Object Model Collector.
+    List Model Collector.
 
     Copyright (c) 2019 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -8,15 +8,16 @@
 
 import { Collector } from 'r-socs-core';
 
-export default class ObjectCollector extends Collector {
+export default class ListCollector extends Collector {
     static handleMap = {
         hfu: {
             hifu: {
                 value: 'value',
             },
             hefu: {
-                change: 'change',
+                clear: 'clear',
                 reset: 'reset',
+                replace: 'replace'
             },
         },
     };

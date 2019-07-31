@@ -1,7 +1,7 @@
 {
-  "name": "r-obj-model",
+  "name": "r-list-model",
   "version": "0.0.1",
-  "description": "R-SoCs obj model library",
+  "description": "R-SoCs list model library",
   "scripts": {
     "build": "rollup -c",
     "test": "jest"
@@ -32,6 +32,6 @@
     "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-terser": "^4.0.4"
   },
-  "main": "lib/r-obj-model.js",
-  "module": "es/r-obj-model.js"
+  "main": "lib/r-list-model.js",
+  "module": "es/r-list-model.js"
 }

@@ -1,5 +1,5 @@
 /*
-    Collected Object Model.
+    Collected List Model.
 
     Copyright (c) 2019 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -8,9 +8,9 @@
 
 import { withCollector } from 'r-socs-core';
 
-import ObjectCollector from './collector';
-import ObjectModel from './component';
+import ListCollector from './collector';
+import ListModel from './component';
 
-const CollectedObjectModel = withCollector(ObjectCollector)(ObjectModel);
+const CollectedListModel = withCollector(ListCollector)(ListModel);
 
-export default CollectedObjectModel;
+export default CollectedListModel;
