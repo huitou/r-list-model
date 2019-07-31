@@ -6,17 +6,17 @@
     Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 
-import React, { Component } from 'react';
-import { object } from 'prop-types';
+import React from 'react';
+import { arrayOf, object } from 'prop-types';
 import { mergeDeepRight } from 'ramda';
 
-class ObjectModel extends Component {
+class ListModel extends React.Component {
     static propTypes = {
-        initial: object
+        initial: arrayOf(object)
     };
 
     static defaultProps = {
-        initial: {}
+        initial: []
     };
 
     constructor(props) {
@@ -29,12 +29,16 @@ class ObjectModel extends Component {
 
     value = () => this.state.value;
     
-    change = (obj) => {
-        this.setState(({ value }) => ({ value: mergeDeepRight(value, obj) }));
+    clear = () => {
+        this.setState({ value: [] });
     };
 
     reset = () => {
         this.setState(({ initial }) => ({ value: initial }));
+    };
+
+    replace = (array) => {
+        this.setState({ value: array });
     };
 
     render() {
@@ -42,4 +46,4 @@ class ObjectModel extends Component {
     }
 }
 
-export default ObjectModel;
+export default ListModel;

@@ -9,28 +9,28 @@
 import React from 'react';
 import { shallow } from "enzyme";
 
-import ObjectModel from './component';
+import ListModel from './component';
 
-const initial = {
-    a: 'a',
-    b: 'b '
-};
+const initial = [
+    { a: 'a1' },
+    { a: 'a2' }
+];
 
 const clean_state = {
-    initial: {},
-    value: {}
+    initial: [],
+    value: []
 };
 
 const initialised_state = {
     initial,
-    value: { ...initial }
+    value: [...initial]
 };
 
-describe('ObjectModel', () => {
+describe('ListModel', () => {
     describe('when mounted without initial props,', () => {
         let wrapper
         beforeEach(() => {
-            wrapper = shallow(<ObjectModel />);
+            wrapper = shallow(<ListModel />);
         })
 
         it('has a clean initial state', () => {
@@ -41,9 +41,15 @@ describe('ObjectModel', () => {
             expect(wrapper.instance().value()).toEqual(wrapper.state().value);
         });
 
-        it('has a change handle which merges properties into its value object', () => {
-            wrapper.instance().change(initial);
-            expect(wrapper.instance().value()).toEqual(initial);
+        it('has a replace handle which set a new value', () => {
+            wrapper.instance().replace([ 'x', 'y', 'z' ]);
+            expect(wrapper.instance().value()).toEqual([ 'x', 'y', 'z' ]);
+        });
+
+        it('has a reset handle which reset its value to initial', () => {
+            wrapper.instance().replace([ 'x', 'y', 'z' ]);
+            wrapper.instance().reset();
+            expect(wrapper.instance().value()).toEqual([]);
         });
 
         // ...
@@ -52,7 +58,7 @@ describe('ObjectModel', () => {
     describe('when mounted with an initial props,', () => {
         let wrapper
         beforeEach(() => {
-            wrapper = shallow(<ObjectModel initial={initial} />);
+            wrapper = shallow(<ListModel initial={initial} />);
         })
 
         it('has an initialised state', () => {
