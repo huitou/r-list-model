@@ -1,7 +1,7 @@
 /*
     Object Model Test.
 
-    Copyright (c) 2019 Riverside Software Engineering Ltd. All rights reserved.
+    Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
     Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
@@ -11,65 +11,78 @@ import { shallow } from "enzyme";
 
 import ListModel from './component';
 
-const initial = [
+const initialElements = [
     { a: 'a1' },
-    { a: 'a2' }
+    { a: 'a2' },
+    'string',
 ];
 
-const clean_state = {
-    initial: [],
-    value: []
+const initialised_state = {
+    elements: [
+        { content: { a: 'a1' } },
+        { content: { a: 'a2' } },
+        { content: 'string' },
+    ],
+    selectedElement: undefined,
 };
 
-const initialised_state = {
-    initial,
-    value: [...initial]
+const initialised_state_with_no_initial = {
+    elements: [],
+    selectedElement: undefined,
 };
 
 describe('ListModel', () => {
-    describe('when mounted without initial props,', () => {
+    describe('when mounted with initialElements props,', () => {
+        let wrapper
+        beforeEach(() => {
+            wrapper = shallow(<ListModel initialElements={initialElements}/>);
+        })
+
+        it('has a clean initial state', () => {
+            expect(wrapper.state()).toEqual(initialised_state);
+        });
+
+        it('has an elements handle which returns its state.elements', () => {
+            expect(wrapper.instance().elements()).toEqual(wrapper.state().elements);
+        });
+
+        it('has a selectedElement handle which returns state.selectedElement', () => {
+            expect(wrapper.instance().selectedElement()).toEqual(wrapper.state().selectedElement);
+        });
+
+        it('has its elements immutable which are called managed elements', () => {
+            expect(() => wrapper.instance().elements()[1].content = 123).toThrow();
+        });
+
+        it('has its element content immutable', () => {
+            expect(() => wrapper.instance().elements()[1].content.a = 123).toThrow();
+        });
+
+        it('has a selectElement handle which sets state.selectedElement only with one of state.elements', () => {
+            wrapper.instance().selectElement(wrapper.instance().elements()[1]);
+            expect(wrapper.state().selectedElement).toEqual(wrapper.instance().elements()[1]);
+        });
+
+        it('has a selectElement handle which does not set state.selectedElement with a non-member of state.elements', () => {
+            wrapper.instance().selectElement({ content: '' });
+            expect(wrapper.state().selectedElement).toEqual(undefined);
+        });
+
+        it('has a deselect handle which sets state.selectedElement to undefined', () => {
+            wrapper.instance().selectElement(wrapper.instance().elements()[1]);
+            wrapper.instance().deselect();
+            expect(wrapper.state().selectedElement).toBe(undefined);
+        });
+    });
+
+    describe('when mounted without initialElements props,', () => {
         let wrapper
         beforeEach(() => {
             wrapper = shallow(<ListModel />);
         })
 
-        it('has a clean initial state', () => {
-            expect(wrapper.state()).toEqual(clean_state);
-        });
-
-        it('has a value handle which returns its state.value', () => {
-            expect(wrapper.instance().value()).toEqual(wrapper.state().value);
-        });
-
-        it('has a replace handle which set a new value', () => {
-            wrapper.instance().replace([ 'x', 'y', 'z' ]);
-            expect(wrapper.instance().value()).toEqual([ 'x', 'y', 'z' ]);
-        });
-
-        it('has a reset handle which reset its value to initial', () => {
-            wrapper.instance().replace([ 'x', 'y', 'z' ]);
-            wrapper.instance().reset();
-            expect(wrapper.instance().value()).toEqual([]);
-        });
-
-        // ...
-    });
-
-    describe('when mounted with an initial props,', () => {
-        let wrapper
-        beforeEach(() => {
-            wrapper = shallow(<ListModel initial={initial} />);
-        })
-
         it('has an initialised state', () => {
-            expect(wrapper.state()).toEqual(initialised_state);
+            expect(wrapper.state()).toEqual(initialised_state_with_no_initial);
         });
-
-        it('has a value handle which returns the inital object', () => {
-            expect(wrapper.instance().value()).toEqual(initial);
-        });
-
-        // ...
     });
-
 });
