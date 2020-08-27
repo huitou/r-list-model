@@ -86,7 +86,7 @@ _defineProperty(ReadonlySelectableListComponent, "defaultProps", {
 });
 
 /*
-    List Model Component exporter.
+    List Component Exporter.
 
     Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -94,7 +94,7 @@ _defineProperty(ReadonlySelectableListComponent, "defaultProps", {
 */
 
 /*
-    Collected List Models Composer.
+    List Models/Services Composer.
 
     Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
