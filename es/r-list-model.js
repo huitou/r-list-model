@@ -1,7 +1,6 @@
 import { Collector, withCollector } from 'r-socs-core';
 import React from 'react';
-import { arrayOf, object } from 'prop-types';
-import 'ramda';
+import { arrayOf, any } from 'prop-types';
 
 function _defineProperty(obj, key, value) {
   if (key in obj) {
@@ -18,51 +17,58 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-class ListCollector extends Collector {}
+class ReadonlySelectableListCollector extends Collector {}
 
-_defineProperty(ListCollector, "handleMap", {
+_defineProperty(ReadonlySelectableListCollector, "handleMap", {
   hfu: {
     hifu: {
-      value: 'value'
+      elements: 'elements',
+      selectedElement: 'selectedElement'
     },
     hefu: {
-      clear: 'clear',
-      reset: 'reset',
-      replace: 'replace'
+      selectElement: 'selectElement',
+      deselect: 'deselect'
     }
   }
 });
 
-class ListModel extends React.Component {
+class ReadonlySelectableListComponent extends React.Component {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "value", () => this.state.value);
+    _defineProperty(this, "elements", () => this.state.elements);
 
-    _defineProperty(this, "clear", () => {
-      this.setState({
-        value: []
-      });
+    _defineProperty(this, "selectedElement", () => this.state.selectedElement);
+
+    _defineProperty(this, "selectElement", managedElem => {
+      if (this.state.elements.includes(managedElem)) {
+        this.setState({
+          selectedElement: managedElem
+        });
+      } else {
+        console.log('ListModel: a non-member of the list cannot be selected.');
+      }
     });
 
-    _defineProperty(this, "reset", () => {
-      this.setState(({
-        initial
-      }) => ({
-        value: initial
-      }));
-    });
-
-    _defineProperty(this, "replace", array => {
+    _defineProperty(this, "deselect", () => {
       this.setState({
-        value: array
+        selectedElement: undefined
       });
     });
 
     this.state = {
-      initial: props.initial,
-      value: props.initial
+      elements: undefined,
+      selectedElement: undefined
     };
+  }
+
+  componentDidMount() {
+    const elements = this.props.initialElements.map(elem => Object.freeze({
+      content: Object.freeze(elem)
+    }));
+    this.setState({
+      elements
+    });
   }
 
   render() {
@@ -71,21 +77,29 @@ class ListModel extends React.Component {
 
 }
 
-_defineProperty(ListModel, "propTypes", {
-  initial: arrayOf(object)
+_defineProperty(ReadonlySelectableListComponent, "propTypes", {
+  initialElements: arrayOf(any)
 });
 
-_defineProperty(ListModel, "defaultProps", {
-  initial: []
+_defineProperty(ReadonlySelectableListComponent, "defaultProps", {
+  initialElements: []
 });
 
 /*
-    Collected List Model.
+    List Model Component exporter.
 
-    Copyright (c) 2019 Riverside Software Engineering Ltd. All rights reserved.
+    Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
     Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
-const CollectedListModel = withCollector(ListCollector)(ListModel);
 
-export { CollectedListModel };
+/*
+    Collected List Models Composer.
+
+    Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
+
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+const ReadonlySelectableListModel = withCollector(ReadonlySelectableListCollector)(ReadonlySelectableListComponent);
+
+export { ReadonlySelectableListModel };

@@ -1,5 +1,5 @@
 /*
-    Object Model.
+    Read-only Selectable List Component.
 
     Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -9,7 +9,7 @@
 import React from 'react';
 import { arrayOf, any } from 'prop-types';
 
-class ListModel extends React.Component {
+class ReadonlySelectableListComponent extends React.Component {
     static propTypes = {
         initialElements: arrayOf(any),
     };
@@ -52,4 +52,4 @@ class ListModel extends React.Component {
     }
 }
 
-export default ListModel;
+export default ReadonlySelectableListComponent;

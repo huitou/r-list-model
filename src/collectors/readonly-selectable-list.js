@@ -1,5 +1,5 @@
 /*
-    List Model Collector.
+    Read-only Selectable List Collector.
 
     Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -8,7 +8,7 @@
 
 import { Collector } from 'r-socs-core';
 
-export default class ListCollector extends Collector {
+export default class ReadonlySelectableListCollector extends Collector {
     static handleMap = {
         hfu: {
             hifu: {

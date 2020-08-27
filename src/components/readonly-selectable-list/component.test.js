@@ -1,5 +1,5 @@
 /*
-    Object Model Test.
+    Read-only Selectable List Component Test.
 
     Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -9,7 +9,7 @@
 import React from 'react';
 import { shallow } from "enzyme";
 
-import ListModel from './component';
+import ReadonlySelectableListComponent from './component';
 
 const initialElements = [
     { a: 'a1' },
@@ -31,11 +31,11 @@ const initialised_state_with_no_initial = {
     selectedElement: undefined,
 };
 
-describe('ListModel', () => {
+describe('ReadonlySelectableListComponent', () => {
     describe('when mounted with initialElements props,', () => {
         let wrapper
         beforeEach(() => {
-            wrapper = shallow(<ListModel initialElements={initialElements}/>);
+            wrapper = shallow(<ReadonlySelectableListComponent initialElements={initialElements}/>);
         })
 
         it('has a clean initial state', () => {
@@ -78,7 +78,7 @@ describe('ListModel', () => {
     describe('when mounted without initialElements props,', () => {
         let wrapper
         beforeEach(() => {
-            wrapper = shallow(<ListModel />);
+            wrapper = shallow(<ReadonlySelectableListComponent />);
         })
 
         it('has an initialised state', () => {
