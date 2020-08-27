@@ -1,5 +1,5 @@
 /*
-    Read-only Selectable List Component.
+    Read-only Multi-Selectable List Component.
 
     Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -9,7 +9,7 @@
 import React from 'react';
 import { arrayOf, any } from 'prop-types';
 
-class ReadonlySelectableListComponent extends React.Component {
+class ReadonlyMultiSelectableListComponent extends React.Component {
     static propTypes = {
         initialElements: arrayOf(any),
     };
@@ -21,7 +21,7 @@ class ReadonlySelectableListComponent extends React.Component {
         super(props);
         this.state = {
             elements: undefined,
-            selectedElement: undefined,
+            selectedElements: [],
         };
     }
 
@@ -34,17 +34,21 @@ class ReadonlySelectableListComponent extends React.Component {
     }
 
     elements = () => this.state.elements;
-    selectedElement = () => this.state.selectedElement;
+    selectedElements = () => this.state.selectedElements;
     
     selectElement = managedElem => {
         if(this.state.elements.includes(managedElem)) {
-            this.setState({ selectedElement: managedElem });
+            if (!this.state.selectedElements.includes(managedElem)) {
+                this.setState(({ selectedElements }) => ({ selectedElements: [...selectedElements, managedElem] }));
+            } else {
+                console.log(`ReadonlyMultiSelectableListComponent: element ${managedElem} is already selected.`);
+            }
         } else {
-            console.log(`ReadonlySelectableListComponent: ${managedElem} is not a member of the list hence it cannot be selected.`);
+            console.log(`ReadonlyMultiSelectableListComponent: ${managedElem} is not a member of the list hence it cannot be selected.`);
         }
     };
-    deselect = () => {
-        this.setState({ selectedElement: undefined });
+    deselect = managedElem => {
+        this.setState(({ selectedElements }) => ({ selectedElements: selectedElements.filter(elem => elem !== managedElem) }));
     };
 
     render() {
@@ -52,4 +56,4 @@ class ReadonlySelectableListComponent extends React.Component {
     }
 }
 
-export default ReadonlySelectableListComponent;
+export default ReadonlyMultiSelectableListComponent;

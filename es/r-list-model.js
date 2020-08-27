@@ -32,6 +32,21 @@ _defineProperty(ReadonlySelectableListCollector, "handleMap", {
   }
 });
 
+class ReadonlyMultiSelectableListCollector extends Collector {}
+
+_defineProperty(ReadonlyMultiSelectableListCollector, "handleMap", {
+  hfu: {
+    hifu: {
+      elements: 'elements',
+      selectedElements: 'selectedElements'
+    },
+    hefu: {
+      selectElement: 'selectElement',
+      deselectElement: 'deselectElement'
+    }
+  }
+});
+
 class ReadonlySelectableListComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +61,7 @@ class ReadonlySelectableListComponent extends React.Component {
           selectedElement: managedElem
         });
       } else {
-        console.log('ListModel: a non-member of the list cannot be selected.');
+        console.log(`ReadonlySelectableListComponent: ${managedElem} is not a member of the list hence it cannot be selected.`);
       }
     });
 
@@ -93,6 +108,75 @@ _defineProperty(ReadonlySelectableListComponent, "defaultProps", {
     Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 
+class ReadonlyMultiSelectableListComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    _defineProperty(this, "elements", () => this.state.elements);
+
+    _defineProperty(this, "selectedElements", () => this.state.selectedElements);
+
+    _defineProperty(this, "selectElement", managedElem => {
+      if (this.state.elements.includes(managedElem)) {
+        if (!this.state.selectedElements.includes(managedElem)) {
+          this.setState(({
+            selectedElements
+          }) => ({
+            selectedElements: [...selectedElements, managedElem]
+          }));
+        } else {
+          console.log(`ReadonlyMultiSelectableListComponent: element ${managedElem} is already selected.`);
+        }
+      } else {
+        console.log(`ReadonlyMultiSelectableListComponent: ${managedElem} is not a member of the list hence it cannot be selected.`);
+      }
+    });
+
+    _defineProperty(this, "deselect", managedElem => {
+      this.setState(({
+        selectedElements
+      }) => ({
+        selectedElements: selectedElements.filter(elem => elem !== managedElem)
+      }));
+    });
+
+    this.state = {
+      elements: undefined,
+      selectedElements: []
+    };
+  }
+
+  componentDidMount() {
+    const elements = this.props.initialElements.map(elem => Object.freeze({
+      content: Object.freeze(elem)
+    }));
+    this.setState({
+      elements
+    });
+  }
+
+  render() {
+    return null;
+  }
+
+}
+
+_defineProperty(ReadonlyMultiSelectableListComponent, "propTypes", {
+  initialElements: arrayOf(any)
+});
+
+_defineProperty(ReadonlyMultiSelectableListComponent, "defaultProps", {
+  initialElements: []
+});
+
+/*
+    List Component Exporter.
+
+    Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
+
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
 /*
     List Models/Services Composer.
 
@@ -101,5 +185,6 @@ _defineProperty(ReadonlySelectableListComponent, "defaultProps", {
     Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 const ReadonlySelectableListModel = withCollector(ReadonlySelectableListCollector)(ReadonlySelectableListComponent);
+const ReadonlyMultiSelectableListModel = withCollector(ReadonlyMultiSelectableListCollector)(ReadonlyMultiSelectableListComponent);
 
-export { ReadonlySelectableListModel };
+export { ReadonlyMultiSelectableListModel, ReadonlySelectableListModel };
