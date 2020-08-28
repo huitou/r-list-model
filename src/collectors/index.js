@@ -8,5 +8,12 @@
 
 import ReadonlySelectableListCollector from './readonly-selectable-list';
 import ReadonlyMultiSelectableListCollector from './readonly-multi-selectable-list';
+import SelectableListCollector from './selectable-list';
+import MultiSelectableListCollector from './multi-selectable-list';
 
-export { ReadonlySelectableListCollector, ReadonlyMultiSelectableListCollector };
+export {
+    ReadonlySelectableListCollector,
+    ReadonlyMultiSelectableListCollector,
+    SelectableListCollector,
+    MultiSelectableListCollector,
+};

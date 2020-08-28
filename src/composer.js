@@ -8,10 +8,24 @@
 
 import { withCollector } from 'r-socs-core';
 
-import { ReadonlySelectableListCollector, ReadonlyMultiSelectableListCollector } from './collectors';
-import { ReadonlySelectableListComponent, ReadonlyMultiSelectableListComponent } from './components';
+import {
+    ReadonlySelectableListCollector,
+    ReadonlyMultiSelectableListCollector,
+    SelectableListCollector,
+} from './collectors';
+
+import {
+    ReadonlySelectableListComponent,
+    ReadonlyMultiSelectableListComponent,
+    SelectableListComponent
+} from './components';
 
 const ReadonlySelectableListModel = withCollector(ReadonlySelectableListCollector)(ReadonlySelectableListComponent);
 const ReadonlyMultiSelectableListModel = withCollector(ReadonlyMultiSelectableListCollector)(ReadonlyMultiSelectableListComponent);
+const SelectableListModel = withCollector(SelectableListCollector)(SelectableListComponent);
 
-export { ReadonlySelectableListModel, ReadonlyMultiSelectableListModel };
+export {
+    ReadonlySelectableListModel,
+    ReadonlyMultiSelectableListModel,
+    SelectableListModel,
+};
