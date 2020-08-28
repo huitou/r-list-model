@@ -1,5 +1,5 @@
 /*
-    Selectable List Component Test.
+    Multi-Selectable List Component Test.
 
     Copyright (c) 2019-2020 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -9,7 +9,7 @@
 import React from 'react';
 import { shallow } from "enzyme";
 
-import SelectableListComponent from './component';
+import MultiSelectableListComponent from './component';
 
 const initialElements = [
     { a: 'a1' },
@@ -23,19 +23,19 @@ const initialised_state = {
         { content: { a: 'a2' } },
         { content: 'string' },
     ],
-    selectedElement: undefined,
+    selectedElements: [],
 };
 
 const initialised_state_with_no_initial = {
     elements: [],
-    selectedElement: undefined,
+    selectedElements: [],
 };
 
-describe('SelectableListComponent', () => {
+describe('ReadonlySelectableListComponent', () => {
     describe('when mounted with initialElements props,', () => {
         let wrapper
         beforeEach(() => {
-            wrapper = shallow(<SelectableListComponent initialElements={initialElements}/>);
+            wrapper = shallow(<MultiSelectableListComponent initialElements={initialElements}/>);
         })
 
         it('has a clean initial state', () => {
@@ -46,8 +46,8 @@ describe('SelectableListComponent', () => {
             expect(wrapper.instance().elements()).toEqual(wrapper.state().elements);
         });
 
-        it('has a selectedElement handle which returns state.selectedElement', () => {
-            expect(wrapper.instance().selectedElement()).toEqual(wrapper.state().selectedElement);
+        it('has a selectedElements handle which returns state.selectedElements', () => {
+            expect(wrapper.instance().selectedElements()).toEqual(wrapper.state().selectedElements);
         });
 
         it('has its elements immutable which are called managed elements', () => {
@@ -58,20 +58,20 @@ describe('SelectableListComponent', () => {
             expect(() => wrapper.instance().elements()[1].content.a = 123).toThrow();
         });
 
-        it('has a selectElement handle which sets state.selectedElement only with one of state.elements', () => {
+        it('has a selectElement handle which sets state.selectedElements only with one of state.elements', () => {
             wrapper.instance().selectElement(wrapper.instance().elements()[1]);
-            expect(wrapper.instance().selectedElement()).toEqual(wrapper.instance().elements()[1]);
+            expect(wrapper.instance().selectedElements()).toEqual([wrapper.instance().elements()[1]]);
         });
 
-        it('has a selectElement handle which does not set state.selectedElement with a non-member of state.elements', () => {
+        it('has a selectElement handle which does not set state.selectedElements with a non-member of state.elements', () => {
             wrapper.instance().selectElement({ content: '' });
-            expect(wrapper.instance().selectedElement()).toEqual(undefined);
+            expect(wrapper.instance().selectedElements()).toEqual([]);
         });
 
-        it('has a deselect handle which sets state.selectedElement to undefined', () => {
+        it('has a deselect handle which sets state.selectedElements to []', () => {
             wrapper.instance().selectElement(wrapper.instance().elements()[1]);
-            wrapper.instance().deselect();
-            expect(wrapper.instance().selectedElement()).toBe(undefined);
+            wrapper.instance().deselect(wrapper.instance().elements()[1]);
+            expect(wrapper.instance().selectedElements()).toEqual([]);
         });
 
         it('has an addElement handle which appends an element to state.elements thruogh a new managed element', () => {
@@ -82,7 +82,7 @@ describe('SelectableListComponent', () => {
             expect(wrapper.instance().elements()).toEqual([...elementsBefore, { content: newElement }]);
         });
 
-        it('has an removeElement handle which removes an managed element from state.elements and from state.selectedElement', () => {
+        it('has an removeElement handle which removes an managed element from state.elements and state.selectedElements', () => {
             const managedElementToBeRemoved = wrapper.instance().elements()[1];
             wrapper.instance().selectElement(managedElementToBeRemoved);
 
@@ -90,14 +90,14 @@ describe('SelectableListComponent', () => {
             wrapper.instance().removeElement(managedElementToBeRemoved);
 
             expect(wrapper.instance().elements()).toEqual([...elementsAfter]);
-            expect(wrapper.instance().selectedElement()).toBe(undefined);
+            expect(wrapper.instance().selectedElements()).toEqual([]);
         });
     });
 
     describe('when mounted without initialElements props,', () => {
         let wrapper
         beforeEach(() => {
-            wrapper = shallow(<SelectableListComponent />);
+            wrapper = shallow(<MultiSelectableListComponent />);
         })
 
         it('has an "empty" initialised state', () => {

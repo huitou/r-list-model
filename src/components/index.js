@@ -9,9 +9,11 @@
 import ReadonlySelectableListComponent from './readonly-selectable-list';
 import ReadonlyMultiSelectableListComponent from './readonly-multi-selectable-list';
 import SelectableListComponent from './selectable-list';
+import MultiSelectableListComponent from './multi-selectable-list';
 
 export {
     ReadonlySelectableListComponent,
     ReadonlyMultiSelectableListComponent,
     SelectableListComponent,
+    MultiSelectableListComponent,
 };

@@ -12,20 +12,24 @@ import {
     ReadonlySelectableListCollector,
     ReadonlyMultiSelectableListCollector,
     SelectableListCollector,
+    MultiSelectableListCollector,
 } from './collectors';
 
 import {
     ReadonlySelectableListComponent,
     ReadonlyMultiSelectableListComponent,
-    SelectableListComponent
+    SelectableListComponent,
+    MultiSelectableListComponent,
 } from './components';
 
 const ReadonlySelectableListModel = withCollector(ReadonlySelectableListCollector)(ReadonlySelectableListComponent);
 const ReadonlyMultiSelectableListModel = withCollector(ReadonlyMultiSelectableListCollector)(ReadonlyMultiSelectableListComponent);
 const SelectableListModel = withCollector(SelectableListCollector)(SelectableListComponent);
+const MultiSelectableListModel = withCollector(MultiSelectableListCollector)(MultiSelectableListComponent);
 
 export {
     ReadonlySelectableListModel,
     ReadonlyMultiSelectableListModel,
     SelectableListModel,
+    MultiSelectableListModel,
 };
