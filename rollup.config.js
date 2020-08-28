@@ -12,7 +12,7 @@ export default [
       ...Object.keys(pkg.peerDependencies || {}),
       'prop-types',
     ],
-    plugins: [babel()]
+    plugins: [babel(), resolve()]
   },
 
   // ES
@@ -24,6 +24,6 @@ export default [
       ...Object.keys(pkg.peerDependencies || {}),
       'prop-types',
     ],
-    plugins: [babel()]
+    plugins: [babel(), resolve()]
   }
 ]
